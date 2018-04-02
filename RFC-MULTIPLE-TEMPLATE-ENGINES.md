@@ -1,8 +1,11 @@
+# RFC: Support multiple template engines in MODX 3
+
 # Aim
 
-We want to be able to use other template engines in MODX. A successful outcome is measured against these criteria:
+To allow other template engines to be used in MODX, in addition to the built-in snippets/chunks and templates model. A successful outcome is measured against these criteria:
 
 * New templating engines should be _complimentary_ to MODX, that is not replace the existing templating approach.
+* TBC
 
 # Why?
 
