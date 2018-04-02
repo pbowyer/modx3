@@ -6,14 +6,14 @@ We want to be able to use other template engines in MODX. A successful outcome i
 
 # Why?
 
-Twig is widely used, and when working with multiple frameworks it's handy to have as few template syntaxs to remember as possible. The author has to know 4 templating languages for everyday work, and does not want to introduce another (Fenom)
+My driver for this project is to be able to use Twig within MODX. Twig is widely used, and when working with multiple frameworks it's handy to have as few template syntaxs to remember as possible. The author has to know 4 templating languages for everyday work, and does not want to introduce another syntax to remember.
 
-Also, because the approach taken by MODX (similar to a Pull-template system like XSLT in many respects) is less common than a push-templating system, where data is passed to the template and iterated over.
+Also, the approach taken by MODX (similar to pull-style XSLT in my mind) is less common than a push-templating system, where data is passed to the template and iterated over.
 
 # Prior work
 
 ### [pdoTools]
-The best known is Fenom, part of the excellent [pdoTools] package. It functions by subclassing `modParser` as `pdoParser` and adjusting the MODX system settings `parser_class` and `parser_class_path` so MODX instantiates the new, custom parser.
+The best known and most polished is Fenom, part of the excellent [pdoTools] package. It functions by subclassing `modParser` as `pdoParser` and adjusting the MODX system settings `parser_class` and `parser_class_path` so MODX instantiates the new, custom parser.
 
 ## Previous attempts using Twig
 
@@ -25,7 +25,7 @@ This loaded Twig and provided a few helper functions to link it and MODX, but di
 
 Like [pdoTools] it subclasses `modParser` to provide its own parsing. Its code was based on pdoTools, and uses its namespace in places.
 
-# A different approach is needed
+# The need for a different approach
 
 The approach taken for Fenom in [pdoTools] works well.
 
