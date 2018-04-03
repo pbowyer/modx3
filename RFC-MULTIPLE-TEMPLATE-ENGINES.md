@@ -38,14 +38,72 @@ You could stick to using just one parser extension in every MODX site, but MODX 
 
 # Possible solutions
 
-## Events and event listeners
-My default way of solving this problem is to define events and register listeners. Default because it's the only one I know, and works well.
+## Chain of responsibilities pattern
 
+Allow multiple template engines to be registered with MODX. The internal template engine is treated the same as any other.
 
-## Others??
-_Have to be other patterns that will work, even if not suitable. Need to list them for completeness and interest in learning what they are._
+Pseudocode:
+```php
+class modX
+{
+    public function __construct()
+    {
+        $this->addTemplateProcessor(new \modxTemplateProcessor());
+    }
+    
+    public function addTemplateProcessor(abstractTemplateProcessor $processor)
+    {
+        // @TODO Allow processors to be reordered
+        $this->processors[] = $processor;
+    }
+}
+```
 
+```
+interface iTemplateProcessor
+{
+    public function process($string);
+}
+```
 
+```php
+class modxTemplateProcessor implements iTemplateProcessor
+{
+    public function process($string)
+    {
+        return $string . ' MODX';
+    }
+}
+```
+```php
+class twigTemplateProcessor implements iTemplateProcessor
+{
+    public function process($string)
+    {
+        return $string . ' TWIG';
+    }
+}
+```
+
+And in a MODX plugin:
+```php
+$modx->addTemplateProcessor(new \twigTemplateProcessor());
+```
+
+Then when MODX renders a chunk containing the text `Hello`, it will output
+ ```
+ Hello MODX TWIG
+ ```
+
+## Events and event listeners (Observer pattern)
+A similar in concept approach, which is already widely used in MODX for plugin calls. MODX would define new events (example: an event called `ProcessTemplate`) and the new template engine(s) would listen for this event to be triggered, processing the payload.
+
+# Choice of approach
+
+There may be performance implications; otherwise I believe it's very much down to a style choice. (Contradict me! Teach me!)
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
 <hr>
 
 <sup><b id="f1">1</b></sup>Actually you can, because twiggy requires pdoTools to be installed. But supposing it didn't. You'd need to modify twiggy so `twigParser`  extends `pdoParser`, which in turn extends `modParser`. That makes your install of `twigParser` non-standard, so you can't update the extra when updates are released. And when you add a third (or fourth) script that wants to subclass `modParser`, you have to do all this again. And then those scripts conflict and overwrite each other's output. So it's easier to say "No you can't"
