@@ -48,26 +48,26 @@ class modX
 {
     public function __construct()
     {
-        $this->addTemplateProcessor(new \modxTemplateProcessor());
+        $this->addTemplateParser(new \modxTemplateParser());
     }
     
-    public function addTemplateProcessor(abstractTemplateProcessor $processor)
+    public function addTemplateParser(abstractTemplateParser $parser)
     {
-        // @TODO Allow processors to be reordered
-        $this->processors[] = $processor;
+        // @TODO Allow parsers to be reordered
+        $this->parsers[] = $parser;
     }
 }
 ```
 
-```
-interface iTemplateProcessor
+```php
+interface iTemplateParser
 {
     public function process($string);
 }
 ```
 
 ```php
-class modxTemplateProcessor implements iTemplateProcessor
+class modxTemplateParser implements iTemplateParser
 {
     public function process($string)
     {
@@ -76,7 +76,7 @@ class modxTemplateProcessor implements iTemplateProcessor
 }
 ```
 ```php
-class twigTemplateProcessor implements iTemplateProcessor
+class twigTemplateParser implements iTemplateParser
 {
     public function process($string)
     {
@@ -87,7 +87,7 @@ class twigTemplateProcessor implements iTemplateProcessor
 
 And in a MODX plugin:
 ```php
-$modx->addTemplateProcessor(new \twigTemplateProcessor());
+$modx->addTemplateParser(new \twigTemplateParser());
 ```
 
 Then when MODX renders a chunk containing the text `Hello`, it will output
