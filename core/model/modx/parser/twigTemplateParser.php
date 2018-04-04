@@ -30,6 +30,7 @@ class twigTemplateParser implements modTemplateParser
         ));
         //$twig->addExtension(new Twig_Extensions_Extension_Text());
         $twig->addExtension(new Twig_Extension_Debug());
+        $twig->addExtension(new \Symfony\Bridge\Twig\Extension\DumpExtension(new \Symfony\Component\VarDumper\Cloner\VarCloner()));
 
         // Uncomment manually when needed. Package is in composer's 'require-dev' settings
         //$twig->addExtension(new Ajgl\Twig\Extension\BreakpointExtension());

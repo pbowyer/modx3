@@ -52,7 +52,8 @@
         "james-heinrich/phpthumb": "^1.7",
         "pelago/emogrifier": "^2.0",
         "twig/twig": "^2.4",
-        "symfony/var-dumper": "^4.0"
+        "symfony/var-dumper": "^4.0",
+        "symfony/twig-bridge": "^4.0"
     },
     "autoload": {
         "classmap": ["core/xpdo/"]
