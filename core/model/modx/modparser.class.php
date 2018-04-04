@@ -213,7 +213,48 @@ class modParser {
      * returned by prior passes, 0 by default.
      * @return int The number of processed tags
      */
-    public function processElementTags($parentTag, & $content, $processUncacheable= false, $removeUnprocessed= false, $prefix= "[[", $suffix= "]]", $tokens= array (), $depth= 0) {
+    public function processElementTags($parentTag, & $content, $processUncacheable= false, $removeUnprocessed= false, $prefix= "[[", $suffix= "]]", $tokens= array (), $depth= 0)
+    {
+        require_once __DIR__ . '/parser/modTemplateParser.php';
+        require_once __DIR__ . '/parser/modxTemplateParser.php';
+        require_once __DIR__ . '/parser/testTemplateParser.php';
+        $parsers[] = new modxTemplateParser($this->modx);
+        $parsers[] = new testTemplateParser($this->modx);
+        foreach (/*$this->modx->getTemplateParsers()*/$parsers as $parser) {
+            $parser->setParentTag($parentTag);
+            $parser->setProcessUncacheable($processUncacheable);
+            $parser->setRemoveUnprocessed($removeUnprocessed);
+            $parser->setPrefix($prefix);
+            $parser->setSuffix($suffix);
+            $parser->setTokens($tokens);
+            $parser->setDepth($depth);
+            $content = $parser->parse($content);
+        }
+    }
+
+    /**
+     * A copy of the original method, to see how generalising would work.
+     *
+     * Collects and processes any set of tags as defined by a prefix and suffix.
+     *
+     * @param string $parentTag The tag representing the element processing this
+     * tag.  Pass an empty string to allow parsing without this recursion check.
+     * @param string $content The content to process and act on (by reference).
+     * @param boolean $processUncacheable Determines if noncacheable tags are to
+     * be processed (default= false).
+     * @param boolean $removeUnprocessed Determines if unprocessed tags should
+     * be left in place in the content, or stripped out (default= false).
+     * @param string $prefix The characters that define the start of a tag
+     * (default= "[[").
+     * @param string $suffix The characters that define the end of a tag
+     * (default= "]]").
+     * @param array $tokens Indicates that the parser should only process tags
+     * with the tokens included in this array.
+     * @param integer $depth The maximum iterations to recursively process tags
+     * returned by prior passes, 0 by default.
+     * @return int The number of processed tags
+     */
+    public function internalProcessElementTags($parentTag, & $content, $processUncacheable= false, $removeUnprocessed= false, $prefix= "[[", $suffix= "]]", $tokens= array (), $depth= 0) {
         if ($processUncacheable) {
             $this->_startedProcessingUncacheable = true;
         }
@@ -261,7 +302,7 @@ class modParser {
             }
             $this->mergeTagOutput($tagMap, $content);
             if ($processed > 0 && $depth > 0) {
-                $processed+= $this->processElementTags($parentTag, $content, $processUncacheable, $removeUnprocessed, $prefix, $suffix, $tokens, $depth);
+                $processed+= $this->internalProcessElementTags($parentTag, $content, $processUncacheable, $removeUnprocessed, $prefix, $suffix, $tokens, $depth);
             }
         }
 
