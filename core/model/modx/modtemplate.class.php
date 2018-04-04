@@ -119,7 +119,19 @@ class modTemplate extends modElement {
 
                 /* collect element tags in the content and process them */
                 $maxIterations= intval($this->xpdo->getOption('parser_max_iterations',null,10));
-                $this->xpdo->parser->processElementTags($this->_tag, $this->_output, false, false, '[[', ']]', array(), $maxIterations);
+
+                foreach ($this->xpdo->getTemplateParsers() as $parser) {
+                    $parser->setParentTag('');
+                    $parser->setProcessUncacheable(false);
+                    $parser->setRemoveUnprocessed(false);
+                    $parser->setPrefix('[[');
+                    $parser->setSuffix(']]');
+                    $parser->setTokens(array());
+                    $parser->setDepth($maxIterations);
+                    $this->_output = $parser->parse($this->_output);
+                }
+
+                /*$this->xpdo->parser->processElementTags($this->_tag, $this->_output, false, false, '[[', ']]', array(), $maxIterations);*/
             }
             $this->filterOutput();
             $this->_processed= true;

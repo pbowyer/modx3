@@ -2646,6 +2646,16 @@ class modX extends xPDO {
         }
         $this->invokeEvent('OnWebPageComplete');
     }
+
+
+
+    protected $_template_parsers = [];
+    public function addTemplateParser($parser) {
+        $this->_template_parsers[] = $parser;
+    }
+    public function getTemplateParsers() {
+        return $this->_template_parsers;
+    }
 }
 
 /**

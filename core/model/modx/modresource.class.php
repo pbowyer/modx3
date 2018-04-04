@@ -458,7 +458,19 @@ class modResource extends modAccessibleSimpleObject implements modResourceInterf
             } else {
                 $this->_content= $this->getContent();
                 $maxIterations= intval($this->xpdo->getOption('parser_max_iterations',10));
-                $this->xpdo->parser->processElementTags('', $this->_content, false, false, '[[', ']]', array(), $maxIterations);
+
+                foreach ($this->xpdo->getTemplateParsers() as $parser) {
+                    $parser->setParentTag('');
+                    $parser->setProcessUncacheable(false);
+                    $parser->setRemoveUnprocessed(false);
+                    $parser->setPrefix('[[');
+                    $parser->setSuffix(']]');
+                    $parser->setTokens(array());
+                    $parser->setDepth($maxIterations);
+                    $this->_content = $parser->parse($this->_content);
+                }
+
+                /*$this->xpdo->parser->processElementTags('', $this->_content, false, false, '[[', ']]', array(), $maxIterations);*/
                 $this->_processed= true;
             }
         }

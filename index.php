@@ -52,6 +52,18 @@ $modx->startTime= $tstart;
 /* Initialize the default 'web' context */
 $modx->initialize('web');
 
+
+require_once MODX_CORE_PATH . '/model/modx/parser/modTemplateParser.php';
+require_once MODX_CORE_PATH . '/model/modx/parser/modxTemplateParser.php';
+require_once MODX_CORE_PATH . '/model/modx/parser/twigTemplateParser.php';
+// The MODX parser needs to come first, because the addon parser (Twig in this example)
+// is run once only. So if there are Twig placeholders in the content, it doesn't see
+// them unless MODX has inserted the content into the page.
+// I want that to change - ideas?
+$modx->addTemplateParser(new modxTemplateParser($modx));
+$modx->addTemplateParser(new twigTemplateParser($modx));
+
+
 /* execute the request handler */
 if (!MODX_API_MODE) {
     $modx->handleRequest();
