@@ -60,7 +60,7 @@ require_once MODX_CORE_PATH . '/model/modx/parser/twigTemplateParser.php';
 // is run once only. So if there are Twig placeholders in the content, it doesn't see
 // them unless MODX has inserted the content into the page.
 // I want that to change - ideas?
-$modx->addTemplateParser(new modxTemplateParser($modx));
+#$modx->addTemplateParser(new modxTemplateParser($modx));
 $modx->addTemplateParser(new twigTemplateParser($modx));
 
 

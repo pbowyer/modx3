@@ -264,6 +264,17 @@ class modParser {
                 $processed+= $this->processElementTags($parentTag, $content, $processUncacheable, $removeUnprocessed, $prefix, $suffix, $tokens, $depth);
             }
         }
+        /** @var modTemplateParser $parser */
+        foreach ($this->modx->getTemplateParsers() as $parser) {
+            $parser->setParentTag($parentTag);
+            $parser->setProcessUncacheable($processUncacheable);
+            $parser->setRemoveUnprocessed($removeUnprocessed);
+            $parser->setPrefix($prefix);
+            $parser->setSuffix($suffix);
+            $parser->setTokens($tokens);
+            $parser->setDepth($depth);
+            $content = $parser->parse($content);
+        }
 
         $this->_removingUnprocessed = $_removingUnprocessed;
         $this->_processingUncacheable = $_processingUncacheable;
