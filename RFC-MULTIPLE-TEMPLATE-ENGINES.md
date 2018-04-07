@@ -98,9 +98,14 @@ Then when MODX renders a chunk containing the text `Hello`, it will output
 ## Events and event listeners (Observer pattern)
 A similar in concept approach, which is already widely used in MODX for plugin calls. MODX would define new events (example: an event called `ProcessTemplate`) and the new template engine(s) would listen for this event to be triggered, processing the payload.
 
-# Choice of approach
+# Notes for Idea 3
 
-There may be performance implications; otherwise I believe it's very much down to a style choice. (Contradict me! Teach me!)
+In Idea 2 I went to change the `process()` methods, working from the basis that I was separating out the MODX template engine so it was one among many.
+
+Well, it's not so straightforward. The MODX parser doubles up: it parses the calls (snippets, chunks etc) but also renders the templates tags and inserts the placeholders. Now parsing for calls is a feature in many template engines; in MODX it's used more widely in the CMS rather than the occasional extra, and so is a required feature (or simple things like lists of resources wouldn't show up). This is what I meant earlier by 'Pull-templates'. Rather than writing a controller to fetch the data to loop over in the template (Push-templates, you push the data to the template), in (virtually) all cases MODX uses a template tag to fetch the data. Not a problem, it just changes the approach needed.
+
+All of which means that you can't run MODX without the (templating) parser. So modifying `modParser` is going to be a better approach than trying to separate out the template engine entirely.
+
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
