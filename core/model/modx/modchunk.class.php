@@ -108,19 +108,7 @@ class modChunk extends modElement {
 
                 /* collect element tags in the output and process them */
                 $maxIterations= intval($this->xpdo->getOption('parser_max_iterations',null,10));
-
-                foreach ($this->xpdo->getTemplateParsers() as $parser) {
-                    $parser->setParentTag($this->_tag);
-                    $parser->setProcessUncacheable($this->xpdo->parser->isProcessingUncacheable());
-                    $parser->setRemoveUnprocessed($this->xpdo->parser->isRemovingUnprocessed());
-                    $parser->setPrefix('[[');
-                    $parser->setSuffix(']]');
-                    $parser->setTokens(array());
-                    $parser->setDepth($maxIterations);
-                    $this->_output = $parser->parse($this->_output);
-                }
-
-/*                $this->xpdo->parser->processElementTags(
+                $this->xpdo->parser->processElementTags(
                     $this->_tag,
                     $this->_output,
                     $this->xpdo->parser->isProcessingUncacheable(),
@@ -129,7 +117,7 @@ class modChunk extends modElement {
                     ']]',
                     array(),
                     $maxIterations
-                );*/
+                );
 
                 /* remove the placeholders set from the properties of this element and restore global values */
                 if (isset($scope['keys'])) $this->xpdo->unsetPlaceholders($scope['keys']);
