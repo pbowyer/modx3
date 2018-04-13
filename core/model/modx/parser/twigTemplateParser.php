@@ -25,6 +25,7 @@ class twigTemplateParser extends modTemplateParser
         $twig->addGlobal('_post', $_POST);
         $twig->addGlobal('_get', $_GET);
         $twig->addGlobal('_server', $_SERVER);
+        // @TODO powerful but not safe. pdoTools use a restricted version of MODX
         $twig->addGlobal('modx', $this->modx);
 
         return $twig;
@@ -34,8 +35,9 @@ class twigTemplateParser extends modTemplateParser
     {
         // If there aren't any Twig template vars, skip running it
         if (strpos($content, '{{') !== false || strpos($content, '{%') !== false) {
+            $data = array_merge($this->modx->resource->toArray(), $this->modx->placeholders);
             $template = $this->twig->createTemplate($content);
-            return $template->render(array_merge($this->modx->resource->toArray(), $this->modx->placeholders));
+            return $template->render($data);
         } else {
             return $content;
         }

@@ -28,6 +28,12 @@ This loaded Twig and provided a few helper functions to link it and MODX, but di
 
 Like [pdoTools] it subclasses `modParser` to provide its own parsing. Its code was based on pdoTools, and uses its namespace in places.
 
+## Other inspiration
+
+### Timber (WordPress)
+
+Timber tries to provide a new approach to templating on top of WordPress. Worth looking at to see how they do it, as they face some of the same challenges (snippet calls = shortcodes).
+
 # The need for a different approach
 
 The approach taken for Fenom in [pdoTools] works well.
@@ -106,6 +112,11 @@ Well, it's not so straightforward. The MODX parser doubles up: it parses the cal
 
 All of which means that you can't run MODX without the (templating) parser. So modifying `modParser` is going to be a better approach than trying to separate out the template engine entirely.
 
+## Outcome
+
+Well it's worked well. You can embed Twig at any level, use logic etc.
+ 
+The next hurdle to overcome is for snippet calls to be able to use Twig to loop their output. 
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
