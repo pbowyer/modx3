@@ -52,13 +52,6 @@ $modx->startTime= $tstart;
 /* Initialize the default 'web' context */
 $modx->initialize('web');
 
-
-require_once MODX_CORE_PATH . '/model/modx/parser/modTemplateParser.php';
-require_once MODX_CORE_PATH . '/model/modx/parser/twigTemplateParser.php';
-
-$modx->addTemplateParser(new twigTemplateParser($modx));
-
-
 /* execute the request handler */
 if (!MODX_API_MODE) {
     $modx->handleRequest();
