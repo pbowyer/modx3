@@ -114,6 +114,15 @@ $settings['automatic_alias']->fromArray(array (
   'area' => 'furls',
   'editedon' => null,
 ), '', true, true);
+$settings['automatic_template_assignment']= $xpdo->newObject('modSystemSetting');
+$settings['automatic_template_assignment']->fromArray(array (
+    'key' => 'automatic_template_assignment',
+    'value' => 'parent',
+    'xtype' => 'textfield',
+    'namespace' => 'core',
+    'area' => 'site',
+    'editedon' => null,
+), '', true, true);
 $settings['base_help_url']= $xpdo->newObject('modSystemSetting');
 $settings['base_help_url']->fromArray(array (
   'key' => 'base_help_url',
@@ -335,15 +344,6 @@ $settings['compress_js']->fromArray(array (
   'key' => 'compress_js',
   'value' => true,
   'xtype' => 'combo-boolean',
-  'namespace' => 'core',
-  'area' => 'manager',
-  'editedon' => null,
-), '', true, true);
-$settings['compress_js_max_files']= $xpdo->newObject('modSystemSetting');
-$settings['compress_js_max_files']->fromArray(array (
-  'key' => 'compress_js_max_files',
-  'value' => 10,
-  'xtype' => 'textfield',
   'namespace' => 'core',
   'area' => 'manager',
   'editedon' => null,
@@ -996,15 +996,6 @@ $settings['manager_js_document_root']->fromArray(array (
   'area' => 'manager',
   'editedon' => null,
 ), '', true, true);
-$settings['manager_js_zlib_output_compression']= $xpdo->newObject('modSystemSetting');
-$settings['manager_js_zlib_output_compression']->fromArray(array (
-  'key' => 'manager_js_zlib_output_compression',
-  'value' => 0,
-  'xtype' => 'combo-boolean',
-  'namespace' => 'core',
-  'area' => 'manager',
-  'editedon' => null,
-), '', true, true);
 $settings['manager_time_format']= $xpdo->newObject('modSystemSetting');
 $settings['manager_time_format']->fromArray(array (
   'key' => 'manager_time_format',
@@ -1080,7 +1071,7 @@ $settings['manager_week_start']->fromArray(array (
 $settings['modx_browser_tree_hide_files']= $xpdo->newObject('modSystemSetting');
 $settings['modx_browser_tree_hide_files']->fromArray(array (
   'key' => 'modx_browser_tree_hide_files',
-  'value' => false,
+  'value' => true,
   'xtype' => 'combo-boolean',
   'namespace' => 'core',
   'area' => 'manager',
