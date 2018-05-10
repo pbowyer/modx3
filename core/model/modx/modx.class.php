@@ -233,6 +233,10 @@ class modX extends xPDO {
      */
     public $smarty;
     /**
+     * @var \Evenement\EventEmitter $eventEmitter
+     */
+    public $eventEmitter;
+    /**
      * @var array $processors An array of loaded processors and their class name
      */
     public $processors = array();
@@ -453,6 +457,7 @@ class modX extends xPDO {
             $this->loadClass('modPrincipal');
             $this->loadClass('modUser');
             $this->loadClass('sources.modMediaSource');
+            $this->eventEmitter = new \Evenement\EventEmitter();
         } catch (xPDOException $xe) {
             $this->sendError('unavailable', array('error_message' => $xe->getMessage()));
         } catch (Exception $e) {
@@ -1603,6 +1608,9 @@ class modX extends xPDO {
     public function invokeEvent($eventName, array $params= array ()) {
         if (!$eventName)
             return false;
+
+        $this->eventEmitter->emit($eventName, $params);
+
         if ($this->eventMap === null && $this->context instanceof modContext)
             $this->_initEventMap($this->context->get('key'));
         if (!isset ($this->eventMap[$eventName])) {
