@@ -135,6 +135,10 @@ class modScript extends modElement {
      * @return string|bool The include filename of the script or false.
      */
     public function loadScript() {
+        if ($this->isStatic() && $this->getSourceFile()) {
+            // We don't need no cache
+            return $this->getSourceFile();
+        }
         $includeFilename = $this->xpdo->getCachePath() . 'includes/' . $this->getScriptCacheKey() . '.include.cache.php';
         $result = is_readable($includeFilename);
         $outdated = false;
