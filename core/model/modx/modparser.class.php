@@ -493,7 +493,16 @@ class modParser {
                     break;
                 case '$':
                     $tagName= substr($tagName, 1 + $tokenOffset);
-                    if ($element= $this->getElement('modChunk', $tagName)) {
+                    if (isset($this->modx->elementRegistry['chunk'][$tagName])) {
+                        /** @var modChunk $element */
+                        $element = $this->modx->newObject('modChunk');
+                        $element->set('name', $tagName);
+                        $element->set('static', true);
+                        $element->set('static_file', $this->modx->elementRegistry['chunk'][$tagName]);
+                        $element->setTag($outerTag);
+                        $element->setCacheable($cacheable);
+                        $elementOutput= $element->process($tagPropString);
+                    } elseif ($element= $this->getElement('modChunk', $tagName)) {
                         $element->set('name', $tagName);
                         $element->setTag($outerTag);
                         $element->setCacheable($cacheable);

@@ -52,6 +52,8 @@ $modx->startTime= $tstart;
 /* Initialize the default 'web' context */
 $modx->initialize('web');
 
+$modx->elementRegistry['chunk']['SourceChunk'] = MODX_CORE_PATH . 'ideas/sourceChunk.tpl';
+
 /* execute the request handler */
 if (!MODX_API_MODE) {
     $modx->handleRequest();

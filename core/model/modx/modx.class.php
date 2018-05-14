@@ -245,6 +245,7 @@ class modX extends xPDO {
         'tags1'          => '@\[\[(.*?)\]\]@si',
         'tags2'          => '@(\[\[|\]\])@si',
     );
+    public $elementRegistry = ['chunks' => [], 'snippets' => []];
     /**
      * @var integer An integer representing the session state of modX.
      */
